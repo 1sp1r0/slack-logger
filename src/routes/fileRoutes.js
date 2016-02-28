@@ -19,7 +19,7 @@ var router = function () {
                     dbcoll.findOne({uniqueName: uniqueName},
                         function (err, results) {
                             console.log(results);
-                            res.sendFile(cfg.storage.file.files + '/' + uniqueName);
+                            res.sendFile(uniqueName, {root: cfg.storage.file.files});
                         });
                 });
         });

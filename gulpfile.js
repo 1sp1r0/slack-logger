@@ -41,7 +41,7 @@ gulp.task('serve', ['style', 'inject'], function () {
         delayTime: 1,
         env: {
             'PORT': 5001,
-            'CFG': 'computerwetenschappenslack'
+            'CFG': 'config.computerwetenschappenslack'
         },
         watch: jsFiles
     };
