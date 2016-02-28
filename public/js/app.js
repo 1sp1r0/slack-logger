@@ -18,4 +18,12 @@ $(function () {
         //$('.absolute-wrapper').removeClass('slide-in');
 
     });
+    // Shit to do when the page has been fully loaded.
+    $(document).load(function () {
+        // code here
+        $('p').linkify();
+        $('#sidebar').linkify({
+            target: "_blank"
+        });
+    });
 });

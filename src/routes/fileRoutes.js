@@ -16,7 +16,7 @@ var router = function () {
                     var coll = db.collection('files');
                     coll.findOne({uniqueName: uniqueName},
                         function (err, results) {
-                            if(!err) {
+                            if (!err) {
                                 res.sendFile(uniqueName, {root: cfg.storage.file.files});
                             }
                             else {

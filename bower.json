@@ -17,11 +17,11 @@
   ],
   "dependencies": {
     "bootstrap": "~3.2.0",
-    "font-awesome": "~4.5.0"
+    "font-awesome": "~4.5.0",
   },
   "overrides": {
     "bootstrap": {
-      "main" : [
+      "main": [
         "dist/js/bootstrap.js",
         "dist/css/bootstrap.min.css",
         "less/bootstrap.less"
@@ -33,8 +33,6 @@
         "css/font-awesome.min.css",
         "scss/font-awesome,scss"
       ]
-
     }
   }
-
-} 
+}
