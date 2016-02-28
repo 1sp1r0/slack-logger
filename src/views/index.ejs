@@ -78,7 +78,7 @@
             <% for(var i = 0; i < channels.length; i++){ %>
             <div class="row">
                 <h2>
-                    <a href="/channel/<%= channels[i].name.replace('\#', '\%23') %>/"><%= channels[i].name %></a>
+                    <a href="/channel/<%= channels[i].name.replace('\#', '\%23') %>/">#<%= channels[i].name %></a>
                 </h2>
             </div>
             <% } %>
