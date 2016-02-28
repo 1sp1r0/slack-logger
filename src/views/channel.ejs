@@ -186,11 +186,13 @@
                         <%= messages[i].sender %>
                     </td>
                     <td class="message-cell">
-                        <%= messages[i].message %>
+
                         <% if (messages[i].file) { %>
-                        <a href="/files/<%= messages[i].file %>">
-                            <%= messages[i].file %>
-                        </a>
+                          <a href="/files/<%= messages[i].file %>">
+                              uploaded a file: <%= messages[i].file %>
+                          </a>
+                        <% } else {%>
+                          <%= messages[i].message %>
                         <% } %>
                     </td>
                 </tr>

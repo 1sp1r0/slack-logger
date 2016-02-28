@@ -10,16 +10,18 @@ console.log('Running with config: ' + cfgloc);
 var router = function () {
     fileRouter.route('/:uniqueName')
         .get(function (req, res) {
-            console.log('GET: /files/');
             var uniqueName = req.params.uniqueName;
-
             mongodb.connect(cfg.storage.mongo.addr,
                 function (err, db) {
-                    var dbcoll = db.collection('files');
-                    dbcoll.findOne({uniqueName: uniqueName},
+                    var coll = db.collection('files');
+                    coll.findOne({uniqueName: uniqueName},
                         function (err, results) {
-                            console.log(results);
-                            res.sendFile(uniqueName, {root: cfg.storage.file.files});
+                            if(!err) {
+                                res.sendFile(uniqueName, {root: cfg.storage.file.files});
+                            }
+                            else {
+                                console.log('Error retrieving file data from database: ' + uniqueName);
+                            }
                         });
                 });
         });
