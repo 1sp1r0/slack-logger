@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- bower:css -->
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" />
+    <!-- endbower -->
+    <!-- bower:js -->
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- endbower -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="/js/app.js"></script>
+    <!-- endinject -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>IRC Logs</title>
+</head>
+<body>
+<div class="row">
+    <!-- uncomment code for absolute positioning tweek see top comment in css -->
+    <!-- <div class="absolute-wrapper"> </div> -->
+
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <!-- Menu -->
+    <div class="side-menu">
+
+        <nav class="navbar navbar-default" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <div class="brand-wrapper">
+                    <!-- Hamburger -->
+                    <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Brand -->
+                    <div class="brand-name-wrapper">
+                        <a class="navbar-brand" href="#">
+                            Slaklog
+                        </a>
+                    </div>
+
+                    <!-- Search -->
+                    <a data-toggle="collapse" href="#search" class="btn btn-default" id="search-trigger">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </a>
+
+                    <!-- Search body -->
+                    <div id="search" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form class="navbar-form" role="search" method="post">
+                                <div class="form-group">
+                                    <input type="text" name="query" class="form-control" placeholder="Search">
+                                </div>
+                                <button type="submit" class="btn btn-default ">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <!-- Main Menu -->
+            <div class="side-menu-container">
+                <ul class="nav navbar-nav">
+                    <% for(var i = 0; i < nav.length; i++) { %>
+                    <li>
+                        <a href="<%= nav[i].link %>"><%= nav[i].text %></a>
+                    </li>
+                    <% } %>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+
+    </div>
+    <!-- Main Content -->
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <div class="container-fluid">
+        <div class="side-body">
+            <!--Pagination-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <% if (lastPage > 1) { %>
+            <nav>
+                <ul class="pagination">
+
+
+                    <li>
+                        <% if (currentPage > 1) { %>
+                        <a href="./<%= currentPage - 1 %>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                        <% } else { %>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                        <% } %>
+                    </li>
+
+
+                    <!--MORE THAN N PAGES-->
+                    <% if (lastPage > navGrain) { %>
+                    <!--First n with interval 1.-->
+                    <% for(var page = 1; (page <= lastPage && page <= navGrain); page++) { %>
+                    <li
+                            <% if (page == currentPage) { %>
+                            class="active"
+                            <% } %>
+                    >
+                        <a href="./<%= page %>"><%= page %></a>
+                    </li>
+                    <% } %>
+
+                    <!--Dots in the middle-->
+                    <% if (lastPage > navGrain) { %>
+                    <li href="#"><a>-</a></li>
+                    <% } %>
+
+                    <!--Trailing numbers-->
+                    <% if (lastPage > navGrain) { %>
+                    <% for(var page = lastPage - navGrain + 1; page <= lastPage; page++) { %>
+                    <li
+                            <% if (page == currentPage) { %>
+                            class="active"
+                            <% } %>
+                    >
+                        <a href="./<%= page %>"><%= page %></a>
+                    </li>
+                    <% } %>
+                    <% } %>
+                    <!--ONLY A FEW PAGES-->
+                    <% } else  { %>
+                    <% for(var page = 1; page <= lastPage; page++) { %>
+                    <li
+                            <% if (page == currentPage) { %>
+                            class="active"
+                            <% } %>
+                    >
+                        <a href="./<%= page %>"><%= page %></a>
+                    </li>
+                    <% } %>
+                    <% } %>
+
+                    <li>
+                        <% if (currentPage < lastPage) { %>
+                        <a href="./<%= (currentPage + 1) %>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                        <% } else { %>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                        <% } %>
+                    </li>
+                </ul>
+            </nav>
+            <% } %>
+            <!--Chatlog-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <!--Chat logs-->
+            <table class="events table">
+                <% for(var i = 0; i < messages.length; i++){ %>
+                <tr>
+                    <td class="time-cell">
+                        <time><%= moment(messages[i].timestamp).format('h:mm:ss a') %></time>
+                    </td>
+                    <td class="nick-cell">
+                        <%= messages[i].sender %>
+                    </td>
+                    <td class="message-cell">
+                        <%= messages[i].message %>
+                        <% if (messages[i].file) { %>
+                        <a href="/files/<%= messages[i].file %>">
+                            <%= messages[i].file %>
+                        </a>
+                        <% } %>
+                    </td>
+                </tr>
+                <% } %>
+            </table>
+            <!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+

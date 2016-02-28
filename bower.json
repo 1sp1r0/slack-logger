@@ -1,0 +1,40 @@
+{
+  "name": "cost-tracker",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Christophe De Troyer <christophe.detroyer@gmail.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "font-awesome": "~4.5.0"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main" : [
+        "dist/js/bootstrap.js",
+        "dist/css/bootstrap.min.css",
+        "less/bootstrap.less"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "less/font-awesome.less",
+        "css/font-awesome.min.css",
+        "scss/font-awesome,scss"
+      ]
+
+    }
+  }
+
+} 

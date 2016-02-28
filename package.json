@@ -1,0 +1,39 @@
+{
+  "name": "slack-logger",
+  "version": "1.0.0",
+  "description": "An external logging service for Slack",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Christophe De Troyer",
+  "license": "ISC",
+  "dependencies": {
+    "basic-auth-connect": "^1.0.0",
+    "body-parser": "^1.14.2",
+    "chalk": "^1.1.1",
+    "cookie-parser": "^1.4.1",
+    "ejs": "^2.3.4",
+    "express": "^4.13.3",
+    "express-session": "^1.13.0",
+    "irc": "^0.4.1",
+    "moment": "^2.11.2",
+    "mongodb": "^2.0.46",
+    "mssql": "^2.3.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "request": "^2.69.0",
+    "slack-client": "^2.0.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-inject": "^1.5.0",
+    "gulp-jscs": "^2.0.0",
+    "gulp-jshint": "^1.11.20",
+    "gulp-nodemon": "^2.0.6",
+    "jshint-stylish": "^2.0.1",
+    "nodemon": "^1.8.1",
+    "wiredep": "^2.2.2"
+  }
+}
