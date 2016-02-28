@@ -120,10 +120,14 @@ var router = function (nav) {
             mongodb.connect(cfg.storage.mongo.addr,
                 function (err, db) {
                     db.listCollections({name: {$ne: 'system.indexes'}}).toArray(function (err, cols) {
+                        var channels = cols.filter(function (collection) {
+                            return !(collection.name == 'system.indexes' ||
+                            collection.name == 'files')
+                        });
                         res.render('index',
                             {
                                 title: 'Render',
-                                channels: cols,
+                                channels: channels,
                                 nav: nav
                             });
                     });
