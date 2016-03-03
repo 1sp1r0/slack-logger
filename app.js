@@ -166,29 +166,40 @@ rtm.on(RTM_EVENTS.FILE_SHARED, function (message) {
     var timestamp = currentmillis();
     var sender = message.file.user;
     var channel = message.file.channels[0];
-    var filename = message.file.name;
-    var downloadUrl = message.file['url_private'];
+    if (message.file.channels[0]) {
+        channel = message.file.channels[0];
+    } else if (message.file.groups[0]) {
+        channel = message.file.groups[0];
+    } else {
+        log.error('File received but no channels or groups mentioned?');
+        channel = null;
+    }
 
-    downloadFromWeb(downloadUrl, filename, function (err, uniqueName) {
-        if (err) {
-            log.error('Error downloading file from Slack: ' + err);
-        }
-        else {
-            slackhelp.userDetails(token, sender, function (err, user) {
-                slackhelp.channelDetails(token, channel, function (err, chan) {
-                    var channel = null;
-                    if (chan.group) {
-                        channel = chan.group.name;
-                    }
-                    else if (chan.channel) {
-                        channel = chan.channel.name;
-                    }
-                    storeFileDb(channel, user.user.name, uniqueName, timestamp);
+    if (channel) {
+        var filename = message.file.name;
+        var downloadUrl = message.file['url_private'];
+
+        downloadFromWeb(downloadUrl, filename, function (err, uniqueName) {
+            if (err) {
+                log.error('Error downloading file from Slack: ' + err);
+            }
+            else {
+                slackhelp.userDetails(token, sender, function (err, user) {
+                    slackhelp.channelDetails(token, channel, function (err, chan) {
+                        var channel = null;
+                        if (chan.group) {
+                            channel = chan.group.name;
+                        }
+                        else if (chan.channel) {
+                            channel = chan.channel.name;
+                        }
+                        storeFileDb(channel, user.user.name, uniqueName, timestamp);
+                    });
                 });
-            });
-        }
+            }
 
-    });
+        });
+    }
 
 });
 
