@@ -6,6 +6,7 @@ var path = require('path');
 var request = require('request');
 request.debug = false;
 var slackhelp = require('./lib/slack-api.js');
+var log = require('./lib/logging.js');
 var util = require('util');
 var chalk = require('chalk');
 
@@ -59,7 +60,7 @@ function storeLineInDb(channel, message, sender, timestamp, filename) {
                 }
             });
         } else {
-            console.log(chalk.red('Error connecting to mongodb: ' + err));
+            log.error('Error connecting to mongodb: ' + err);
         }
 
     });
@@ -137,6 +138,7 @@ rtm.start();
  * So we ignore subtypes. For each subtype create a seperate handler.
  */
 rtm.on(RTM_EVENTS.MESSAGE, function (message) {
+    log.trace(JSON.stringify(message, null, 2));
     if (!message.subtype) {
         var messageText = message.text;
         var timestamp = currentmillis();
@@ -160,6 +162,7 @@ rtm.on(RTM_EVENTS.MESSAGE, function (message) {
  * Listens for uploaded files. Stores them on disk, add custom entry in the log file.
  */
 rtm.on(RTM_EVENTS.FILE_SHARED, function (message) {
+    log.trace(JSON.stringify(message, null, 2));
     var timestamp = currentmillis();
     var sender = message.file.user;
     var channel = message.file.channels[0];
@@ -168,7 +171,7 @@ rtm.on(RTM_EVENTS.FILE_SHARED, function (message) {
 
     downloadFromWeb(downloadUrl, filename, function (err, uniqueName) {
         if (err) {
-            console.log(chalk.red('Error downloading file from Slack: ' + err));
+            log.error('Error downloading file from Slack: ' + err);
         }
         else {
             slackhelp.userDetails(token, sender, function (err, user) {
@@ -220,10 +223,10 @@ app.use('/files', fileRouter);
 
 // Local Routes
 app.get('/', function (req, res) {
-    console.log('GET: /');
+    log.trace('GET: /');
     res.redirect('/channel');
 });
 
 app.listen(port, function (err) {
-    console.log('Running: http://localhost:' + port + '/');
+    log.trace('Running: http://localhost:' + port + '/');
 });
