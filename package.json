@@ -20,7 +20,7 @@
     "irc": "^0.4.1",
     "linkifyjs": "^2.0.0-beta.9",
     "moment": "^2.11.2",
-    "mongodb": "^2.0.46",
+    "mongodb": "^3.6.1",
     "mssql": "^2.3.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
